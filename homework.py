@@ -44,7 +44,7 @@ class Record:
 class CaloriesCalculator(Calculator):
     """ Создаём класс для калькулятора калорий """
     def get_calories_remained(self):
-        if self.get_today_stats() < self.limit:
+        if self.get_remained() > 0:
             return ("Сегодня можно съесть что-нибудь ещё, но с общей "
                     f"калорийностью не более {self.get_remained()} кКал")
         else:
@@ -65,9 +65,9 @@ class CashCalculator(Calculator):
         cur_rate, cur_title = currencies[currency]
         if self.get_remained() == 0:
             return "Денег нет, держись"
-        remained = round((self.get_remained()/cur_rate), 2)
+        remained = round((self.get_remained() / cur_rate), 2)
+        remained_negative = abs(remained)
         if remained > 0:
             return f"На сегодня осталось {remained} {cur_title}"
-        else:
-            return ("Денег нет, держись: твой долг - "
-                    f"{abs(remained)} {cur_title}")
+        return ("Денег нет, держись: твой долг - "
+                f"{remained_negative} {cur_title}")
